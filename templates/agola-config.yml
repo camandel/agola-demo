@@ -1,0 +1,74 @@
+gateway:
+  apiExposedURL: "http://${IP_VM}:8000"
+  webExposedURL: "http://${IP_VM}:8000"
+  runserviceURL: "http://localhost:4000"
+  configstoreURL: "http://localhost:4002"
+  gitserverURL: "http://localhost:4003"
+
+  web:
+    listenAddress: ":8000"
+  tokenSigning:
+    # hmac or rsa (it possible use rsa)
+    method: hmac
+    # key to use when signing with hmac
+    key: supersecretsigningkey
+    # paths to the private and public keys in pem encoding when using rsa signing
+    #privateKeyPath: /path/to/privatekey.pem
+    #publicKeyPath: /path/to/public.pem
+  adminToken: "admintoken"
+
+  cookieSigning:
+    key: supersecretsigningkey
+
+  unsecureCookies: true
+
+scheduler:
+  runserviceURL: "http://localhost:4000"
+
+notification:
+  webExposedURL: "http://${IP_VM}:8000"
+  runserviceURL: "http://localhost:4000"
+  configstoreURL: "http://localhost:4002"
+  db:
+    type: sqlite3
+    connString: /data/agola/notification/db
+
+configstore:
+  dataDir: /data/agola/configstore
+  db:
+    type: sqlite3
+    connString: /data/agola/configstore/db
+  objectStorage:
+    type: posix
+    path: /data/agola/configstore/ost
+  web:
+    listenAddress: ":4002"
+
+runservice:
+  #debug: true
+  dataDir: /data/agola/runservice
+  db:
+    type: sqlite3
+    connString: /data/agola/runservice/db
+  objectStorage:
+    type: posix
+    path: /data/agola/runservice/ost
+  web:
+    listenAddress: ":4000"
+
+executor:
+  dataDir: /data/agola/executor
+  # The directory containing the toolbox compiled for the various supported architectures
+  toolboxPath: ./bin
+  runserviceURL: "http://localhost:4000"
+  web:
+    listenAddress: ":4001"
+  activeTasksLimit: 2
+  driver:
+    type: docker
+
+gitserver:
+  dataDir: /data/agola/gitserver
+  gatewayURL: "http://localhost:8000"
+  web:
+    listenAddress: ":4003"
